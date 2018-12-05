@@ -1,25 +1,25 @@
 //
-//  ATTwoViewController.m
+//  ATThreeViewController.m
 //  ATRouter_Example
 //
-//  Created by lianglibao on 2018/12/4.
+//  Created by lianglibao on 2018/12/5.
 //  Copyright © 2018年 Spaino. All rights reserved.
 //
 
-#import "ATTwoViewController.h"
+#import "ATThreeViewController.h"
 #import <ATRouter/ATRoutableController.h>
 #import <ATRouter/ATRouter.h>
-@interface ATTwoViewController () <ATRoutableController>
+@interface ATThreeViewController ()<ATRoutableController>
 
 @end
 
-@implementation ATTwoViewController
+@implementation ATThreeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = NSStringFromClass(self.class);
-    self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1];
+    self.view.backgroundColor = [UIColor colorWithWhite:0.4 alpha:1];
     
     [self.view addSubview:({
         UIButton *btn = [UIButton new];
@@ -35,17 +35,15 @@
 }
 
 - (void)backToPerious {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [ATRouter routeURL:[NSURL URLWithString:@"/three"] withParameters:@{@"title":NSStringFromClass(self.class), @"method":@"present"}];
+    [ATRouter routeURL:[NSURL URLWithString:@"/two"] withParameters:@{@"method":@"pop", @"poper": self.navigationController}];
 }
 
 + (UIViewController *)createInstanceWithParameters:(NSDictionary *)parameters {
     NSLog(@"%@", parameters);
+    
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[self new]];
     return nav;
+
 }
 
 @end

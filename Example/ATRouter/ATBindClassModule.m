@@ -9,6 +9,7 @@
 #import "ATBindClassModule.h"
 #import "ATSupportedControllers.h"
 #import "ATTwoViewController.h"
+#import "ATThreeViewController.h"
 
 @implementation ATBindClassModule
 + (void)load {
@@ -21,6 +22,8 @@
 - (void)configure {
     // twoVC
     [self bindMetaClass:ATTwoViewController.class toProtocol:@protocol(ATTwoViewController)];
+    // threeVC
+    [self bindMetaClass:ATThreeViewController.class toProtocol:@protocol(ATThreeViewController)];
 }
 
 @end

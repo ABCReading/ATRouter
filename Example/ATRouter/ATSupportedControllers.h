@@ -12,4 +12,8 @@
 @protocol ATTwoViewController <NSObject>
 @end
 
+@protocol ATThreeViewController <NSObject>
+@end
+
+
 #endif /* ATSupportedControllers_h */

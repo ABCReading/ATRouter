@@ -10,6 +10,7 @@
 		316D5EA621B62CDE00E74939 /* ATRouter+Test.m in Sources */ = {isa = PBXBuildFile; fileRef = 316D5EA521B62CDE00E74939 /* ATRouter+Test.m */; };
 		316D5EA921B62D6900E74939 /* ATTwoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316D5EA821B62D6900E74939 /* ATTwoViewController.m */; };
 		316D5EAC21B69CEA00E74939 /* ATBindClassModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 316D5EAB21B69CEA00E74939 /* ATBindClassModule.m */; };
+		316D5EB321B7C68100E74939 /* ATThreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316D5EB221B7C68100E74939 /* ATThreeViewController.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -50,6 +51,8 @@
 		316D5EA821B62D6900E74939 /* ATTwoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATTwoViewController.m; sourceTree = "<group>"; };
 		316D5EAA21B69CEA00E74939 /* ATBindClassModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATBindClassModule.h; sourceTree = "<group>"; };
 		316D5EAB21B69CEA00E74939 /* ATBindClassModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATBindClassModule.m; sourceTree = "<group>"; };
+		316D5EB121B7C68100E74939 /* ATThreeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATThreeViewController.h; sourceTree = "<group>"; };
+		316D5EB221B7C68100E74939 /* ATThreeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATThreeViewController.m; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* ATRouter_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ATRouter_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -149,6 +152,8 @@
 				6003F5A6195388D20070C39A /* ATViewController.m */,
 				316D5EA721B62D6900E74939 /* ATTwoViewController.h */,
 				316D5EA821B62D6900E74939 /* ATTwoViewController.m */,
+				316D5EB121B7C68100E74939 /* ATThreeViewController.h */,
+				316D5EB221B7C68100E74939 /* ATThreeViewController.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -390,6 +395,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				316D5EB321B7C68100E74939 /* ATThreeViewController.m in Sources */,
 				316D5EAC21B69CEA00E74939 /* ATBindClassModule.m in Sources */,
 				316D5EA921B62D6900E74939 /* ATTwoViewController.m in Sources */,
 				6003F59E195388D20070C39A /* ATAppDelegate.m in Sources */,

@@ -11,11 +11,12 @@
 #import <Objection/Objection.h>
 #import <ATRoutableController.h>
 #import <ATRouter.h>
-static NSString *routerStr = @"/TwoVC/pass";
+static NSString *routerTwoStr = @"/two";
+static NSString *routerThreeStr = @"/three";
 @implementation ATRouter (Test)
 + (void)load {
-    // webVC
-    [ATRouter addRoute:routerStr handler:^BOOL(NSDictionary *parameters) {
+    // twoVC
+    [ATRouter addRoute:routerTwoStr handler:^BOOL(NSDictionary *parameters) {
         id<ATRoutableController> destination = [[JSObjection defaultInjector] getObject:@protocol(ATTwoViewController)];
         
         UIViewController *c = [destination createInstanceWithParameters:parameters];
@@ -27,6 +28,21 @@ static NSString *routerStr = @"/TwoVC/pass";
         [self navigationWithController:c parameters:parameters];
         return YES;
     }];
+    
+    // threeVC
+    [ATRouter addRoute:routerThreeStr handler:^BOOL(NSDictionary *parameters) {
+        id<ATRoutableController> destination = [[JSObjection defaultInjector] getObject:@protocol(ATThreeViewController)];
+        
+        UIViewController *c = [destination createInstanceWithParameters:parameters];
+        
+        if (!c) {
+            return NO;
+        }
+        
+        [self navigationWithController:c parameters:parameters];
+        return YES;
+    }];
+
     
 }
 @end

@@ -29,8 +29,9 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [ATRouter routeURL:[NSURL URLWithString:@"/TwoVC/pass"]
-        withParameters:@{@"title": NSStringFromClass(self.class)}];
+//    [ATRouter routeURL:[NSURL URLWithString:@"https://TwoVC/pass?qq=110"]
+//        withParameters:@{@"title": NSStringFromClass(self.class)}];
+    [ATRouter routeURL:[NSURL URLWithString:@"/two"] withParameters:@{@"title":NSStringFromClass(self.class), @"method":@"present"}];
 }
 
 // MARK: - <ATRouteHostController>
