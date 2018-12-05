@@ -35,7 +35,9 @@
 }
 
 - (void)backToPerious {
-    [ATRouter routeURL:[NSURL URLWithString:@"/two"] withParameters:@{@"method":@"pop", @"poper": self.navigationController}];
+    
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//    [ATRouter routeURL:[NSURL URLWithString:@"/two"] withParameters:@{@"method":@"pop", @"poper": self.navigationController}];
 }
 
 + (UIViewController *)createInstanceWithParameters:(NSDictionary *)parameters {

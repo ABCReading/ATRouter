@@ -1,5 +1,5 @@
 PODS:
-  - ATRouter (0.2.0):
+  - ATRouter (0.3.0):
     - JLRoutes (= 2.0.5)
     - libextobjc (= 0.4.1)
     - Objection (= 1.6.1)
@@ -55,7 +55,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ATRouter: 996109bd66034f13d5e2f11564a5067fe119d18d
+  ATRouter: 96d96ffc3c61e871c5624aeeedbba19ea0e4f02c
   JLRoutes: 2a5ee61d739b51a98c9d8112bee5149a19de8854
   libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
   Objection: ed03f2219cb22d2b5b893114219fe6c7e3263bde

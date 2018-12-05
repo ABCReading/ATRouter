@@ -26,7 +26,8 @@
 
 /// 默认创建实例的方法.
 + (UIViewController *)createInstanceWithParameters:(NSDictionary *)parameters;
-
+/// pop/dismiss回来时候反向传值操作更新.
+- (void)updateCurrentPageWithParmeters:(NSDictionary *)parameters;
 /// 页面的标识.
 //- (NSString *)navigationIdentifier;
 

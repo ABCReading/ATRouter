@@ -84,6 +84,7 @@ NSString * const kATRouterPrefferedNavigationController = @"prefferedNavigationC
         return;
 
     // pop返回,必须需要知道当前nav 并且方法是pop
+    // poper 当前页面的导航控制器.
     } else if ([parameters[@"method"] isEqualToString:@"pop"] && [parameters[@"poper"] isKindOfClass:UINavigationController.class]) {
         UINavigationController *c = parameters[@"poper"];
         __block BOOL isCanPop = NO;
@@ -104,6 +105,10 @@ NSString * const kATRouterPrefferedNavigationController = @"prefferedNavigationC
         }];
 
         if (isCanPop) {
+            // pop时的反向传值操作.
+            if ([tempController respondsToSelector:@selector(updateCurrentPageWithParmeters:)]) {
+                [tempController performSelector:@selector(updateCurrentPageWithParmeters:) withObject:parameters];
+            }
             [c popToViewController:tempController animated:YES];
         } else {
             // 这里是否欠考虑? 目标控制器实际不能pop的时候,是否什么应该都不做呢?
@@ -113,6 +118,25 @@ NSString * const kATRouterPrefferedNavigationController = @"prefferedNavigationC
                 [c pushViewController:controller animated:YES];
             }
         }
+        return;
+        
+    // dismisser 当前dismiss的控制器
+    } else if ([parameters[@"method"] isEqualToString:@"dismiss"] &&
+               [parameters[@"dismisser"] isKindOfClass:UIViewController.class]) {
+        UIViewController *tmpDismisser = parameters[@"dismisser"];
+        UIViewController *tempController;
+        if ([tmpDismisser.presentingViewController isKindOfClass:UINavigationController.class]) {
+            tempController = tmpDismisser.presentingViewController.childViewControllers.lastObject;
+        } else if ([tmpDismisser.presentingViewController isKindOfClass:UITabBarController.class]) {
+            tempController = ((UITabBarController *)tmpDismisser.presentingViewController).selectedViewController;
+            tempController = tempController.childViewControllers.lastObject;
+        } else {
+            tempController = tmpDismisser.presentingViewController;
+        }
+        if ([tempController respondsToSelector:@selector(updateCurrentPageWithParmeters:)]) {
+            [tempController performSelector:@selector(updateCurrentPageWithParmeters:) withObject:parameters];
+        }
+        [tmpDismisser dismissViewControllerAnimated:YES completion:nil];
         return;
     }
 
