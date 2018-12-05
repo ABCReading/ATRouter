@@ -1,0 +1,6 @@
+framework module ATRouter {
+  umbrella header "ATRouter-umbrella.h"
+
+  export *
+  module * { export * }
+}

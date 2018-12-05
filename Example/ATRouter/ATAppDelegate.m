@@ -1,14 +1,14 @@
 //
-//  AATAppDelegate.m
+//  ATAppDelegate.m
 //  ATRouter
 //
 //  Created by Spaino on 12/04/2018.
 //  Copyright (c) 2018 Spaino. All rights reserved.
 //
 
-#import "AATAppDelegate.h"
+#import "ATAppDelegate.h"
 
-@implementation AATAppDelegate
+@implementation ATAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

@@ -1,5 +1,5 @@
 //
-//  AATAppDelegate.h
+//  ATAppDelegate.h
 //  ATRouter
 //
 //  Created by Spaino on 12/04/2018.
@@ -8,7 +8,7 @@
 
 @import UIKit;
 
-@interface AATAppDelegate : UIResponder <UIApplicationDelegate>
+@interface ATAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

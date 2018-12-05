@@ -1,0 +1,6 @@
+framework module Pods_ATRouter_Example {
+  umbrella header "Pods-ATRouter_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

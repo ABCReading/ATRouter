@@ -1,5 +1,5 @@
 //
-//  AATViewController.h
+//  ATViewController.h
 //  ATRouter
 //
 //  Created by Spaino on 12/04/2018.
@@ -7,7 +7,7 @@
 //
 
 @import UIKit;
-
-@interface AATViewController : UIViewController
+#import <ATRouter/ATRoutableController.h>
+@interface ATViewController : UIViewController
 
 @end
