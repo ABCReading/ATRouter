@@ -67,14 +67,10 @@ NSString * const kATRouterPrefferedNavigationController = @"prefferedNavigationC
     // parameters[@"presenter"] &&
     // 展现方式是present,就应该只有当前顶层控制器来完成.
     if ([parameters[@"method"] isEqualToString:@"present"]) {
-        // UIViewController *c = (UIViewController *)parameters[@"presenter"];
-        id root = [UIApplication sharedApplication].delegate.window.rootViewController;
-        id presentRoot = [root performSelector:@selector(presentedViewController)];
-        // 例如,当前nav present 一个nav, 然后presentNav 需要present vc
-        if (presentRoot) {
-            root = presentRoot;
-        }
-        [root presentViewController:controller animated:YES completion:nil];
+        
+        UIViewController *vc =  [self at_currentViewController];
+        [vc presentViewController:controller animated:YES completion:nil];
+        
         return;
         
     // 指定导航控制器push
@@ -169,6 +165,38 @@ NSString * const kATRouterPrefferedNavigationController = @"prefferedNavigationC
     id<ATRoutableController> destination = [JLRoutes routesForScheme:path];
     
     return [destination createInstanceWithParameters:params];
+}
+
+// MARK: - Private Func
+
+/** 获得正在显示的ViewController */
++ (UIViewController *)at_currentViewController {
+    UIViewController *viewController = [[UIApplication sharedApplication].delegate window].rootViewController;
+    return [self findBestViewController:viewController];
+}
+
++ (UIViewController *)findBestViewController:(UIViewController*)vc {
+    if (vc.presentedViewController) {
+        return [self findBestViewController:vc.presentedViewController];
+    } else if ([vc isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *svc = (UINavigationController *)vc;
+        
+        if (svc.viewControllers.count > 0)
+            return [self findBestViewController:svc.topViewController];
+        else
+            return vc;
+        
+    } else if ([vc isKindOfClass:[UITabBarController class]]) {
+        UITabBarController *svc = (UITabBarController *) vc;
+        
+        if (svc.viewControllers.count > 0)
+            return [self findBestViewController:svc.selectedViewController];
+        else
+            return vc;
+        
+    } else {
+        return vc;
+    }
 }
 
 @end
