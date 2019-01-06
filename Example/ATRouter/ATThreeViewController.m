@@ -9,6 +9,7 @@
 #import "ATThreeViewController.h"
 #import <ATRouter/ATRoutableController.h>
 #import <ATRouter/ATRouter.h>
+#import "ATUnifyUpdateInfoClass.h"
 @interface ATThreeViewController ()<ATRoutableController>
 
 @end
@@ -17,6 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [ATUnifyUpdateInfoClass saveUpdateInstance:self];
     // Do any additional setup after loading the view.
     self.title = NSStringFromClass(self.class);
     self.view.backgroundColor = [UIColor colorWithWhite:0.4 alpha:1];
@@ -35,7 +37,7 @@
 }
 
 - (void)backToPerious {
-    
+    [ATUnifyUpdateInfoClass removeUpdateInstance:self];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 //    [ATRouter routeURL:[NSURL URLWithString:@"/two"] withParameters:@{@"method":@"pop", @"poper": self.navigationController}];
 }
@@ -46,6 +48,18 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[self new]];
     return nav;
 
+}
+
+//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+//    [[ATUnifyUpdateInfoClass sharedInstance] updateInstanceMethod:NSStringFromClass(self.class)];
+//}
+
+- (void)testUpdateMthod:(id)object {
+    NSLog(@"%s++++++++%@", __func__, object);
+}
+
+- (void)dealloc {
+    
 }
 
 @end

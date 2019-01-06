@@ -7,83 +7,57 @@
 //
 
 #import "ATRouter.h"
-#import <JLRoutes/JLRoutes.h>
-#import <Objection/Objection.h>
+#import "JLRoutes.h"
 #import "ATRoutableController.h"
+#import <objc/message.h>
 
-
-NSString * const kATRouterTargetController = @"route_target";
-NSString * const kATRouterSourceController = @"sourceViewController";
-NSString * const kATRouterPrefferedNavigationController = @"prefferedNavigationController";
+NSString * const kATRouterBindClassKey = @"kJLRoutesBindViewControllerKey";
 
 @implementation ATRouter
-
-+ (void)addRoute:(NSString *)routePattern handler:(BOOL (^)(NSDictionary *parameters))handlerBlock {
-    [[JLRoutes globalRoutes] addRoute:routePattern handler:handlerBlock];
++ (void)addRoute:(NSString *)routePattern bindViewControllerClass:(Class)bindClass
+         handler:(id (^)(NSDictionary *parameters))handlerBlock {
+    if ([bindClass conformsToProtocol:@protocol(ATRoutableController)]) {
+        [[JLRoutes globalRoutes] addRoute:routePattern bindClass:bindClass handler:handlerBlock];
+    }
 }
 
-+ (BOOL)routeURL:(NSURL *)URL {
++ (id)routeURL:(NSURL *)URL {
     return [self routeURL:URL withParameters:nil];
 }
 
-+ (BOOL)routeURL:(NSURL *)URL withParameters:(NSDictionary *)parameters {
-    id controller = [UIApplication sharedApplication].delegate.window.rootViewController;
-    BOOL canRoute = NO;
-
-    if ([controller conformsToProtocol:@protocol(ATRouteHostController)]) {
-
-        canRoute = [controller routeURL:URL withParameters:parameters];
-
-    }
++ (id)routeURL:(NSURL *)URL withParameters:(NSDictionary *)parameters {
     
-    if (!canRoute) {
-
-        canRoute = [JLRoutes routeURL:URL withParameters:parameters];
-
-    }
+    id canRoute = [JLRoutes routeURL:URL withParameters:parameters];
 
     return canRoute;
 }
 
-+ (BOOL)routeWithProtocol:(id)protocol parameters:(NSDictionary *)parameters {
-
-    UIViewController *c = [self controllerWithProtocol:protocol parameters:parameters];
-    if (!c) {
-        return NO;
++ (void)navigationWithController:(UIViewController *)controller parameters:(NSDictionary *)parameters {
+    if ([parameters[kJLRoutesDontGotoNextPageKey] boolValue]) {
+        // kJLRoutesDontGotoNextPageKey 代表只是获取一个实例,并不用跳转!
+        return;
     }
     
-    [self navigationWithController:c parameters:parameters];
-
-    return YES;
-}
-
-+ (UIViewController *)controllerWithProtocol:(id)protocol parameters:(NSDictionary *)parameters {
-    id<ATRoutableController> destination = [[JSObjection defaultInjector] getObject:protocol];
-
-    return [destination createInstanceWithParameters:parameters];
-}
-
-+ (void)navigationWithController:(UIViewController *)controller parameters:(NSDictionary *)parameters {
+    if (![controller isKindOfClass:UIViewController.class]) {
+        // 当初绑定的class或createInstanceWithParameters出来的就不是:UIViewController!!;
+        return;
+    }
+    
     // parameters[@"presenter"] &&
     // 展现方式是present,就应该只有当前顶层控制器来完成.
     if ([parameters[@"method"] isEqualToString:@"present"]) {
         
-        UIViewController *vc =  [self at_currentViewController];
+        UIViewController *vc =  [self getTopVisibleController];
         [vc presentViewController:controller animated:YES completion:nil];
         
         return;
-        
-    // 指定导航控制器push
-    } else if (parameters[kATRouterPrefferedNavigationController]) {
-        UINavigationController *c = (UINavigationController *)parameters[kATRouterPrefferedNavigationController];
-        [c pushViewController:controller animated:YES];
-        return;
-
     // pop返回,必须需要知道当前nav 并且方法是pop
     // poper 当前页面的导航控制器.
-    } else if ([parameters[@"method"] isEqualToString:@"pop"] && [parameters[@"poper"] isKindOfClass:UINavigationController.class]) {
+    } else if ([parameters[@"method"] isEqualToString:@"pop"] &&
+               [parameters[@"poper"] isKindOfClass:UINavigationController.class]) {
         UINavigationController *c = parameters[@"poper"];
         __block BOOL isCanPop = NO;
+        
         __block UIViewController *tempController = controller;
         if ([controller isKindOfClass:UINavigationController.class]) {
             UINavigationController *tempNavController = (UINavigationController *)tempController;
@@ -136,67 +110,69 @@ NSString * const kATRouterPrefferedNavigationController = @"prefferedNavigationC
         return;
     }
 
-    // root is navVC/tabVC,通用的push结构.
-    id root = [UIApplication sharedApplication].delegate.window.rootViewController;
-    id presentRoot = [root performSelector:@selector(presentedViewController)];
-    // 例如,当前nav present 一个nav, 然后presentNav 需要push vc
-    if (presentRoot) {
-        root = presentRoot;
-    }
-    
-    if ([root conformsToProtocol:@protocol(ATRouteHostController)]) {
-        id<ATRouteHostController> c = (id<ATRouteHostController>)root;
-        [[c activeNavigationController] pushViewController:controller animated:YES];
-        return;
-    }
-    
-    // root 是没有包装的nav 直接push.
-    if ([root isKindOfClass:UINavigationController.class]) {
-        [root pushViewController:controller animated:YES];
-        return;
+    // 通用的push操作.
+    if ([controller isKindOfClass:UINavigationController.class]) {
+        [[self getTopVisibleNavgationController] pushViewController:controller.childViewControllers.firstObject animated:YES];
+    } else if ([controller isKindOfClass:UITabBarController.class]) {
+        [[self getTopVisibleNavgationController] pushViewController:[self p_getTopVisibleController:controller] animated:YES];
+    } else {
+        [[self getTopVisibleNavgationController] pushViewController:controller animated:YES];
     }
 
+    return;
 
     NSAssert(NO, @"TODO: 未实现的分支逻辑");
 }
 
-+ (UIViewController *)createViewControllerWithScheme:(NSString *)path
-                                           parameter:(NSDictionary *)params {
-    id<ATRoutableController> destination = [JLRoutes routesForScheme:path];
-    
-    return [destination createInstanceWithParameters:params];
++ (UIViewController *)createViewControllerWithURL:(NSURL *)URL
+                                        parameter:(NSDictionary *)params {
+    id router = [JLRoutes getViewControllerFormURL:URL withParameters:params];
+    if ([router isKindOfClass:UIViewController.class]) {
+        return router;
+    } else {
+        return nil;
+    }
 }
+
+
 
 // MARK: - Private Func
+/************************************获取当前显示的控制器*********************************************/
 
-/** 获得正在显示的ViewController */
-+ (UIViewController *)at_currentViewController {
-    UIViewController *viewController = [[UIApplication sharedApplication].delegate window].rootViewController;
-    return [self findBestViewController:viewController];
++ (UIViewController *)getTopVisibleController {
+    
+    return [self p_getTopVisibleController:[self p_getCurrentWindowRootController]];
 }
 
-+ (UIViewController *)findBestViewController:(UIViewController*)vc {
++ (UINavigationController *)getTopVisibleNavgationController {
+    return [[self getTopVisibleController] navigationController];
+}
+
++ (UIViewController *)p_getCurrentWindowRootController {
+    UIWindow *window = [UIApplication sharedApplication].delegate.window;
+    return window.rootViewController;
+}
+
++ (UIViewController *)p_getTopVisibleController:(UIViewController *)vc {
+    
     if (vc.presentedViewController) {
-        return [self findBestViewController:vc.presentedViewController];
-    } else if ([vc isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *svc = (UINavigationController *)vc;
-        
-        if (svc.viewControllers.count > 0)
-            return [self findBestViewController:svc.topViewController];
-        else
-            return vc;
-        
-    } else if ([vc isKindOfClass:[UITabBarController class]]) {
-        UITabBarController *svc = (UITabBarController *) vc;
-        
-        if (svc.viewControllers.count > 0)
-            return [self findBestViewController:svc.selectedViewController];
-        else
-            return vc;
-        
+        return [self p_getTopVisibleController:vc.presentedViewController];
+    } else if ([vc isKindOfClass:UITabBarController.class]) {
+        return [self p_getTopVisibleController:((UITabBarController *)vc).selectedViewController];
+    } else if ([vc isKindOfClass:UINavigationController.class]) {
+        return [self p_getTopVisibleController:((UINavigationController *)vc).visibleViewController];
     } else {
+        NSUInteger count = vc.childViewControllers.count;
+        for (NSUInteger i = 0; i < count; i++) {
+            UIViewController *childVC = vc.childViewControllers[i];
+            if (childVC && childVC.view.window) {
+                vc = [self p_getTopVisibleController:childVC];
+                break;
+            }
+        }
         return vc;
     }
 }
+/*************************************获取当前显示的控制器********************************************/
 
 @end

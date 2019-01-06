@@ -154,15 +154,9 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/ATRouter/ATRouter.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/JLRoutes/JLRoutes.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Objection/Objection.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/libextobjc/libextobjc.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/ATRouter/ATRouter.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/JLRoutes/JLRoutes.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Objection/Objection.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/libextobjc/libextobjc.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

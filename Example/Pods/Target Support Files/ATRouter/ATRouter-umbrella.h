@@ -12,6 +12,7 @@
 
 #import "ATRoutableController.h"
 #import "ATRouter.h"
+#import "JLRoutes.h"
 
 FOUNDATION_EXPORT double ATRouterVersionNumber;
 FOUNDATION_EXPORT const unsigned char ATRouterVersionString[];

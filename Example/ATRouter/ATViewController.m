@@ -8,15 +8,15 @@
 
 #import "ATViewController.h"
 #import <ATRouter/ATRouter.h>
-@interface ATViewController () <ATRouteHostController>
-
-@end
+#import "ATUnifyUpdateInfoClass.h"
 
 @implementation ATViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [ATUnifyUpdateInfoClass saveUpdateInstance:self];
 	// Do any additional setup after loading the view, typically from a nib.
     self.title = NSStringFromClass(self.class);
     self.view.backgroundColor = [UIColor lightGrayColor];
@@ -32,15 +32,16 @@
 //    [ATRouter routeURL:[NSURL URLWithString:@"https://TwoVC/pass?qq=110"]
 //        withParameters:@{@"title": NSStringFromClass(self.class)}];
     [ATRouter routeURL:[NSURL URLWithString:@"/two"] withParameters:@{@"title":NSStringFromClass(self.class), @"method":@"present"}];
+//    NSLog(@"%@=====", [ATRouter createViewControllerWithURL:[NSURL URLWithString:@"https:///two"] parameter:nil]);
 }
 
-// MARK: - <ATRouteHostController>
-- (BOOL)routeURL:URL withParameters:(NSDictionary *)parameters {
-    return NO;
+
+- (void)testUpdateMthod:(id)object {
+    NSLog(@"%s++++++++%@", __func__, object);
 }
 
-- (UINavigationController *)activeNavigationController {
-    return (UINavigationController *)self.navigationController;
+- (void)dealloc {
+    [ATUnifyUpdateInfoClass removeUpdateInstance:self];
 }
 
 

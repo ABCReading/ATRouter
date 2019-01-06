@@ -8,39 +8,40 @@
 
 #import "ATRouter+Test.h"
 #import "ATSupportedControllers.h"
-#import <Objection/Objection.h>
 #import <ATRoutableController.h>
 #import <ATRouter.h>
+#import "ATTwoViewController.h"
+#import "ATThreeViewController.h"
 static NSString *routerTwoStr = @"/two";
 static NSString *routerThreeStr = @"/three";
 @implementation ATRouter (Test)
 + (void)load {
     // twoVC
-    [ATRouter addRoute:routerTwoStr handler:^BOOL(NSDictionary *parameters) {
-        id<ATRoutableController> destination = [[JSObjection defaultInjector] getObject:@protocol(ATTwoViewController)];
-        
+    [ATRouter addRoute:routerTwoStr bindViewControllerClass:ATTwoViewController.class handler:^id (NSDictionary *parameters) {
+        Class destination = NSClassFromString([parameters objectForKey:kATRouterBindClassKey]);
+
         UIViewController *c = [destination createInstanceWithParameters:parameters];
         
         if (!c) {
-            return NO;
+            return nil;
         }
         
         [self navigationWithController:c parameters:parameters];
-        return YES;
+        return c;
     }];
     
     // threeVC
-    [ATRouter addRoute:routerThreeStr handler:^BOOL(NSDictionary *parameters) {
-        id<ATRoutableController> destination = [[JSObjection defaultInjector] getObject:@protocol(ATThreeViewController)];
+    [ATRouter addRoute:routerThreeStr bindViewControllerClass:ATThreeViewController.class handler:^id (NSDictionary *parameters) {
+        Class destination = NSClassFromString([parameters objectForKey:kATRouterBindClassKey]);
         
         UIViewController *c = [destination createInstanceWithParameters:parameters];
         
         if (!c) {
-            return NO;
+            return nil;
         }
         
         [self navigationWithController:c parameters:parameters];
-        return YES;
+        return c;
     }];
 
     

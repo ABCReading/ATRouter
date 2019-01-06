@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ATRouter'
-  s.version          = '0.5.0'
+  s.version          = '0.6.0'
   s.summary          = 'ABCReading common Router'
 
 # This description is used to generate tags and improve search results.
@@ -38,8 +38,8 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'libextobjc', '0.4.1'
-  s.dependency 'Objection', '1.6.1'
-  s.dependency 'JLRoutes', '2.0.5'
+  # s.dependency 'libextobjc', '0.4.1'
+  # s.dependency 'Objection', '1.6.1'
+  # s.dependency 'JLRoutes', '2.0.5'
 
 end

@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		310E474B21D4B0E8009469B8 /* ATUnifyUpdateInfoClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 310E474A21D4B0E8009469B8 /* ATUnifyUpdateInfoClass.m */; };
 		316D5EA621B62CDE00E74939 /* ATRouter+Test.m in Sources */ = {isa = PBXBuildFile; fileRef = 316D5EA521B62CDE00E74939 /* ATRouter+Test.m */; };
 		316D5EA921B62D6900E74939 /* ATTwoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316D5EA821B62D6900E74939 /* ATTwoViewController.m */; };
-		316D5EAC21B69CEA00E74939 /* ATBindClassModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 316D5EAB21B69CEA00E74939 /* ATBindClassModule.m */; };
 		316D5EB321B7C68100E74939 /* ATThreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316D5EB221B7C68100E74939 /* ATThreeViewController.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -44,13 +44,13 @@
 		07E722EFE21142F79EBF6FE0 /* Pods-ATRouter_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ATRouter_Example.debug.xcconfig"; path = "Target Support Files/Pods-ATRouter_Example/Pods-ATRouter_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		2E7DD02E640AED8935192358 /* ATRouter.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = ATRouter.podspec; path = ../ATRouter.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		30ECE52F870A44F4076286CF /* Pods_ATRouter_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ATRouter_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		310E474921D4B0E8009469B8 /* ATUnifyUpdateInfoClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATUnifyUpdateInfoClass.h; sourceTree = "<group>"; };
+		310E474A21D4B0E8009469B8 /* ATUnifyUpdateInfoClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATUnifyUpdateInfoClass.m; sourceTree = "<group>"; };
 		316D5E9F21B629CD00E74939 /* ATSupportedControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATSupportedControllers.h; sourceTree = "<group>"; };
 		316D5EA421B62CDE00E74939 /* ATRouter+Test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ATRouter+Test.h"; sourceTree = "<group>"; };
 		316D5EA521B62CDE00E74939 /* ATRouter+Test.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ATRouter+Test.m"; sourceTree = "<group>"; };
 		316D5EA721B62D6900E74939 /* ATTwoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATTwoViewController.h; sourceTree = "<group>"; };
 		316D5EA821B62D6900E74939 /* ATTwoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATTwoViewController.m; sourceTree = "<group>"; };
-		316D5EAA21B69CEA00E74939 /* ATBindClassModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATBindClassModule.h; sourceTree = "<group>"; };
-		316D5EAB21B69CEA00E74939 /* ATBindClassModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATBindClassModule.m; sourceTree = "<group>"; };
 		316D5EB121B7C68100E74939 /* ATThreeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATThreeViewController.h; sourceTree = "<group>"; };
 		316D5EB221B7C68100E74939 /* ATThreeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATThreeViewController.m; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* ATRouter_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ATRouter_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,9 +159,9 @@
 				6003F594195388D20070C39A /* Supporting Files */,
 				316D5EA421B62CDE00E74939 /* ATRouter+Test.h */,
 				316D5EA521B62CDE00E74939 /* ATRouter+Test.m */,
-				316D5EAA21B69CEA00E74939 /* ATBindClassModule.h */,
-				316D5EAB21B69CEA00E74939 /* ATBindClassModule.m */,
 				316D5E9F21B629CD00E74939 /* ATSupportedControllers.h */,
+				310E474921D4B0E8009469B8 /* ATUnifyUpdateInfoClass.h */,
+				310E474A21D4B0E8009469B8 /* ATUnifyUpdateInfoClass.m */,
 			);
 			name = "Example for ATRouter";
 			path = ATRouter;
@@ -326,18 +326,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ATRouter_Example/Pods-ATRouter_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ATRouter/ATRouter.framework",
-				"${BUILT_PRODUCTS_DIR}/JLRoutes/JLRoutes.framework",
-				"${BUILT_PRODUCTS_DIR}/Objection/Objection.framework",
-				"${BUILT_PRODUCTS_DIR}/libextobjc/libextobjc.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ATRouter.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JLRoutes.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Objection.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libextobjc.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -395,8 +389,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				310E474B21D4B0E8009469B8 /* ATUnifyUpdateInfoClass.m in Sources */,
 				316D5EB321B7C68100E74939 /* ATThreeViewController.m in Sources */,
-				316D5EAC21B69CEA00E74939 /* ATBindClassModule.m in Sources */,
 				316D5EA921B62D6900E74939 /* ATTwoViewController.m in Sources */,
 				6003F59E195388D20070C39A /* ATAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* ATViewController.m in Sources */,

@@ -6,7 +6,7 @@
 //  Copyright © 2017 lianglibao All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 /*
  路由的流程:
@@ -19,31 +19,20 @@
 
     如果也没有，则拿到当前 vc 对应的导航控制器来进行 push 
  */
-
-// 可选的,导航目标控制器
-extern NSString * const kATRouterTargetController;
-// 可选的,导航发起的控制器
-extern NSString * const kATRouterSourceController;
-// 希望被使用的调用栈.
-extern NSString * const kATRouterPrefferedNavigationController;
+extern NSString * const kATRouterBindClassKey;
 
 @interface ATRouter : NSObject
 
 /// Migrate from JLRoutes.
 /// Registers a routePattern with default priority (0) in the receiving scheme namespace.
-+ (void)addRoute:(NSString *)routePattern handler:(BOOL (^)(NSDictionary *parameters))handlerBlock;
++ (void)addRoute:(NSString *)routePattern bindViewControllerClass:(Class)bindClass handler:(id (^)(NSDictionary *parameters))handlerBlock;
 
-+ (BOOL)routeURL:(NSURL *)URL;
-+ (BOOL)routeURL:(NSURL *)URL withParameters:(NSDictionary *)parameters;
-
-+ (BOOL)routeWithProtocol:(id)protocol parameters:(NSDictionary *)parameters;
++ (id)routeURL:(NSURL *)URL;
++ (id)routeURL:(NSURL *)URL withParameters:(NSDictionary *)parameters;
 
 + (void)navigationWithController:(UIViewController *)controller parameters:(NSDictionary *)parameters;
 
-// 得到指定类型的 controller.
-+ (UIViewController *)controllerWithProtocol:(id)protocol parameters:(NSDictionary *)parameters;
-
-+ (UIViewController *)createViewControllerWithScheme:(NSString *)path
-                                           parameter:(NSDictionary *)params;
++ (UIViewController *)createViewControllerWithURL:(NSURL *)URL
+                                        parameter:(NSDictionary *)params;
 
 @end

@@ -1,64 +1,15 @@
 PODS:
-  - ATRouter (0.4.0):
-    - JLRoutes (= 2.0.5)
-    - libextobjc (= 0.4.1)
-    - Objection (= 1.6.1)
-  - JLRoutes (2.0.5)
-  - libextobjc (0.4.1):
-    - libextobjc/EXTADT (= 0.4.1)
-    - libextobjc/EXTConcreteProtocol (= 0.4.1)
-    - libextobjc/EXTKeyPathCoding (= 0.4.1)
-    - libextobjc/EXTNil (= 0.4.1)
-    - libextobjc/EXTSafeCategory (= 0.4.1)
-    - libextobjc/EXTScope (= 0.4.1)
-    - libextobjc/EXTSelectorChecking (= 0.4.1)
-    - libextobjc/EXTSynthesize (= 0.4.1)
-    - "libextobjc/NSInvocation+EXT (= 0.4.1)"
-    - "libextobjc/NSMethodSignature+EXT (= 0.4.1)"
-    - libextobjc/RuntimeExtensions (= 0.4.1)
-    - libextobjc/UmbrellaHeader (= 0.4.1)
-  - libextobjc/EXTADT (0.4.1):
-    - libextobjc/RuntimeExtensions
-  - libextobjc/EXTConcreteProtocol (0.4.1):
-    - libextobjc/RuntimeExtensions
-  - libextobjc/EXTKeyPathCoding (0.4.1):
-    - libextobjc/RuntimeExtensions
-  - libextobjc/EXTNil (0.4.1):
-    - libextobjc/RuntimeExtensions
-  - libextobjc/EXTSafeCategory (0.4.1):
-    - libextobjc/RuntimeExtensions
-  - libextobjc/EXTScope (0.4.1):
-    - libextobjc/RuntimeExtensions
-  - libextobjc/EXTSelectorChecking (0.4.1):
-    - libextobjc/RuntimeExtensions
-  - libextobjc/EXTSynthesize (0.4.1):
-    - libextobjc/RuntimeExtensions
-  - "libextobjc/NSInvocation+EXT (0.4.1)":
-    - libextobjc/RuntimeExtensions
-  - "libextobjc/NSMethodSignature+EXT (0.4.1)":
-    - libextobjc/RuntimeExtensions
-  - libextobjc/RuntimeExtensions (0.4.1)
-  - libextobjc/UmbrellaHeader (0.4.1)
-  - Objection (1.6.1)
+  - ATRouter (0.5.0)
 
 DEPENDENCIES:
   - ATRouter (from `../`)
-
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - JLRoutes
-    - libextobjc
-    - Objection
 
 EXTERNAL SOURCES:
   ATRouter:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ATRouter: 07adb69528d05f352ea6ce53aae6527b0a6a10a9
-  JLRoutes: 2a5ee61d739b51a98c9d8112bee5149a19de8854
-  libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
-  Objection: ed03f2219cb22d2b5b893114219fe6c7e3263bde
+  ATRouter: cee4b6a0fbe1d5d17d842162e226e3a3422e360f
 
 PODFILE CHECKSUM: c2b0af351a4879c3ae27f8e4390163fc6573a291
 
