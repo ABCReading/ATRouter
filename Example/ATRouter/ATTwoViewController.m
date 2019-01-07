@@ -55,9 +55,9 @@
 }
 
 - (void)next {
-    // @"method":@"present"
+    
     [ATRouter routeURL:[NSURL URLWithString:@"/three"]
-        withParameters:@{@"title":NSStringFromClass(self.class),
+        withParameters:@{@"title":NSStringFromClass(self.class),@"method":@"present"
                          }];
 }
 

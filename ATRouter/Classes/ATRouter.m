@@ -42,13 +42,15 @@ NSString * const kATRouterBindClassKey = @"kJLRoutesBindViewControllerKey";
         // 当初绑定的class或createInstanceWithParameters出来的就不是:UIViewController!!;
         return;
     }
+
+    BOOL animation = ![parameters[@"animation"] isEqualToString:@"NO"];
     
     // parameters[@"presenter"] &&
     // 展现方式是present,就应该只有当前顶层控制器来完成.
     if ([parameters[@"method"] isEqualToString:@"present"]) {
         
         UIViewController *vc =  [self getTopVisibleController];
-        [vc presentViewController:controller animated:YES completion:nil];
+        [vc presentViewController:controller animated:animation completion:nil];
         
         return;
     // pop返回,必须需要知道当前nav 并且方法是pop
@@ -75,17 +77,17 @@ NSString * const kATRouterBindClassKey = @"kJLRoutesBindViewControllerKey";
         }];
 
         if (isCanPop) {
+            [c popToViewController:tempController animated:animation];
             // pop时的反向传值操作.
             if ([tempController respondsToSelector:@selector(updateCurrentPageWithParmeters:)]) {
                 [tempController performSelector:@selector(updateCurrentPageWithParmeters:) withObject:parameters];
             }
-            [c popToViewController:tempController animated:YES];
         } else {
             // 这里是否欠考虑? 目标控制器实际不能pop的时候,是否什么应该都不做呢?
             if ([controller isKindOfClass:UINavigationController.class]) {
-                [c pushViewController:controller.childViewControllers.firstObject animated:YES];
+                [c pushViewController:controller.childViewControllers.firstObject animated:animation];
             } else {
-                [c pushViewController:controller animated:YES];
+                [c pushViewController:controller animated:animation];
             }
         }
         return;
@@ -103,20 +105,20 @@ NSString * const kATRouterBindClassKey = @"kJLRoutesBindViewControllerKey";
         } else {
             tempController = tmpDismisser.presentingViewController;
         }
+        [tmpDismisser dismissViewControllerAnimated:animation completion:nil];
         if ([tempController respondsToSelector:@selector(updateCurrentPageWithParmeters:)]) {
             [tempController performSelector:@selector(updateCurrentPageWithParmeters:) withObject:parameters];
         }
-        [tmpDismisser dismissViewControllerAnimated:YES completion:nil];
         return;
     }
 
     // 通用的push操作.
     if ([controller isKindOfClass:UINavigationController.class]) {
-        [[self getTopVisibleNavgationController] pushViewController:controller.childViewControllers.firstObject animated:YES];
+        [[self getTopVisibleNavgationController] pushViewController:controller.childViewControllers.firstObject animated:animation];
     } else if ([controller isKindOfClass:UITabBarController.class]) {
-        [[self getTopVisibleNavgationController] pushViewController:[self p_getTopVisibleController:controller] animated:YES];
+        [[self getTopVisibleNavgationController] pushViewController:[self p_getTopVisibleController:controller] animated:animation];
     } else {
-        [[self getTopVisibleNavgationController] pushViewController:controller animated:YES];
+        [[self getTopVisibleNavgationController] pushViewController:controller animated:animation];
     }
 
     return;
