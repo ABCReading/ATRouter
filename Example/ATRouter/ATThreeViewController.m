@@ -39,7 +39,7 @@
 - (void)backToPerious {
     [ATUnifyUpdateInfoClass removeUpdateInstance:self];
     [self dismissViewControllerAnimated:YES completion:nil];
-//    [ATRouter routeURL:[NSURL URLWithString:@"/two"] withParameters:@{@"method":@"pop", @"poper": self.navigationController}];
+//    [ATRouter routeURL:[NSURL URLWithString:@"/two"] withParameters:@{kATRouterMethodKey:kATRouterPop, kATRouterPoperKey: self.navigationController}];
 }
 
 + (UIViewController *)createInstanceWithParameters:(NSDictionary *)parameters {

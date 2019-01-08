@@ -11,7 +11,29 @@
 #import "ATRoutableController.h"
 #import <objc/message.h>
 
-NSString * const kATRouterBindClassKey = @"kJLRoutesBindViewControllerKey";
+/** 获取绑定VC Class key **/
+NSString const *kATRouterBindClassKey = @"kJLRoutesBindViewControllerKey";
+
+/** Router参数 **/
+// 跳转方式key,默认push. 其他方式 value 传入kATRouterPop(返回), kATRouterDismiss(退下) , kATRouterPresent(弹出)
+NSString const *kATRouterMethodKey = @"kATRouterMethodKey";
+// pop返回时必需参数value
+NSString const *kATRouterPop = @"pop";
+// dismiss退下页面时必需参数value
+NSString const *kATRouterDismiss = @"dismiss";
+// present弹出页面时必需参数value
+NSString const *kATRouterPresent = @"present";
+
+// 返回上一页面相关key.
+// kATRouterPop时必需参数key, value为当前页面NavVC
+NSString const *kATRouterPoperKey = @"kATRouterPoperKey";
+// kATRouterDismiss时必需参数key, value为当前页面NavVC或VC
+NSString const *kATRouterDismisserKey = @"kATRouterDismisserKey";
+
+// 跳转时是否需要动画key,默认有. value 传入 kATRouterNoAnimation,无动画!
+NSString const *kATRouterHasShowAnimationKey = @"kATRouterHasShowAnimationKey";
+// 跳转时不需要动画参数value.
+NSString const *kATRouterNoAnimation = @"NO";
 
 @implementation ATRouter
 + (void)addRoute:(NSString *)routePattern bindViewControllerClass:(Class)bindClass
@@ -42,22 +64,22 @@ NSString * const kATRouterBindClassKey = @"kJLRoutesBindViewControllerKey";
         // 当初绑定的class或createInstanceWithParameters出来的就不是:UIViewController!!;
         return;
     }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored"-Wincompatible-pointer-types-discards-qualifiers"
+    BOOL animation = ![parameters[kATRouterHasShowAnimationKey] isEqualToString:kATRouterNoAnimation];
 
-    BOOL animation = ![parameters[@"animation"] isEqualToString:@"NO"];
-    
-    // parameters[@"presenter"] &&
     // 展现方式是present,就应该只有当前顶层控制器来完成.
-    if ([parameters[@"method"] isEqualToString:@"present"]) {
+    if ([parameters[kATRouterMethodKey] isEqualToString:kATRouterPresent]) {
         
         UIViewController *vc =  [self getTopVisibleController];
         [vc presentViewController:controller animated:animation completion:nil];
         
         return;
     // pop返回,必须需要知道当前nav 并且方法是pop
-    // poper 当前页面的导航控制器.
-    } else if ([parameters[@"method"] isEqualToString:@"pop"] &&
-               [parameters[@"poper"] isKindOfClass:UINavigationController.class]) {
-        UINavigationController *c = parameters[@"poper"];
+    // poper 是当前页面的导航控制器.
+    } else if ([parameters[kATRouterMethodKey] isEqualToString:kATRouterPop] &&
+               [parameters[kATRouterPoperKey] isKindOfClass:UINavigationController.class]) {
+        UINavigationController *c = parameters[kATRouterPoperKey];
         __block BOOL isCanPop = NO;
         
         __block UIViewController *tempController = controller;
@@ -93,9 +115,9 @@ NSString * const kATRouterBindClassKey = @"kJLRoutesBindViewControllerKey";
         return;
         
     // dismisser 当前dismiss的控制器
-    } else if ([parameters[@"method"] isEqualToString:@"dismiss"] &&
-               [parameters[@"dismisser"] isKindOfClass:UIViewController.class]) {
-        UIViewController *tmpDismisser = parameters[@"dismisser"];
+    } else if ([parameters[kATRouterMethodKey] isEqualToString:kATRouterDismiss] &&
+               [parameters[kATRouterDismisserKey] isKindOfClass:UIViewController.class]) {
+        UIViewController *tmpDismisser = parameters[kATRouterDismisserKey];
         UIViewController *tempController;
         if ([tmpDismisser.presentingViewController isKindOfClass:UINavigationController.class]) {
             tempController = tmpDismisser.presentingViewController.childViewControllers.lastObject;
@@ -111,7 +133,7 @@ NSString * const kATRouterBindClassKey = @"kJLRoutesBindViewControllerKey";
         }
         return;
     }
-
+#pragma clang diagnostic pop
     // 通用的push操作.
     if ([controller isKindOfClass:UINavigationController.class]) {
         [[self getTopVisibleNavgationController] pushViewController:controller.childViewControllers.firstObject animated:animation];

@@ -57,7 +57,7 @@
 - (void)next {
     
     [ATRouter routeURL:[NSURL URLWithString:@"/three"]
-        withParameters:@{@"title":NSStringFromClass(self.class),@"method":@"present"
+        withParameters:@{@"title":NSStringFromClass(self.class),kATRouterMethodKey:kATRouterPresent
                          }];
 }
 

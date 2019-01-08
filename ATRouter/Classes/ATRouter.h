@@ -19,7 +19,31 @@
 
     如果也没有，则拿到当前 vc 对应的导航控制器来进行 push 
  */
-extern NSString * const kATRouterBindClassKey;
+/** 获取绑定VC Class key **/
+extern NSString const *kATRouterBindClassKey;
+
+/** Router参数 **/
+// 跳转方式key,默认push. 其他方式 value 传入kATRouterPop(返回), kATRouterDismiss(退下) , kATRouterPresent(弹出)
+extern NSString const *kATRouterMethodKey;
+// pop返回时必需参数value
+extern NSString const *kATRouterPop;
+// dismiss退下页面时必需参数value
+extern NSString const *kATRouterDismiss;
+// present弹出页面时必需参数value
+extern NSString const *kATRouterPresent;
+
+// 返回上一页面相关key.
+// kATRouterPop时必需参数key, value为当前页面NavVC
+extern NSString const *kATRouterPoperKey;
+// kATRouterDismiss时必需参数key, value为当前页面NavVC或VC
+extern NSString const *kATRouterDismisserKey;
+
+
+// 跳转时是否需要动画key,默认有. value 传入 kATRouterNoAnimation,无动画!
+extern NSString const *kATRouterHasShowAnimationKey;
+// 跳转时不需要动画参数value.
+extern NSString const *kATRouterNoAnimation;
+
 
 @interface ATRouter : NSObject
 
