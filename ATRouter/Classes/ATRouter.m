@@ -59,18 +59,18 @@ NSString const *kATRouterNoAnimation = @"NO";
         // kJLRoutesDontGotoNextPageKey 代表只是获取一个实例,并不用跳转!
         return;
     }
-    
-    if (![controller isKindOfClass:UIViewController.class]) {
-        // 当初绑定的class或createInstanceWithParameters出来的就不是:UIViewController!!;
-        return;
-    }
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored"-Wincompatible-pointer-types-discards-qualifiers"
     BOOL animation = ![parameters[kATRouterHasShowAnimationKey] isEqualToString:kATRouterNoAnimation];
 
     // 展现方式是present,就应该只有当前顶层控制器来完成.
     if ([parameters[kATRouterMethodKey] isEqualToString:kATRouterPresent]) {
-        
+        if (![controller isKindOfClass:UIViewController.class]) {
+            // 当初绑定的class或createInstanceWithParameters出来的就不是:UIViewController!!;
+            return;
+        }
+
         UIViewController *vc =  [self getTopVisibleController];
         [vc presentViewController:controller animated:animation completion:nil];
         
@@ -79,6 +79,8 @@ NSString const *kATRouterNoAnimation = @"NO";
     // poper 是当前页面的导航控制器.
     } else if ([parameters[kATRouterMethodKey] isEqualToString:kATRouterPop] &&
                [parameters[kATRouterPoperKey] isKindOfClass:UINavigationController.class]) {
+        Class destinationClass = NSClassFromString([parameters objectForKey:kATRouterBindClassKey]);
+        
         UINavigationController *c = parameters[kATRouterPoperKey];
         __block BOOL isCanPop = NO;
         
@@ -91,7 +93,7 @@ NSString const *kATRouterNoAnimation = @"NO";
         [c.childViewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj,
                                                              NSUInteger idx,
                                                              BOOL * _Nonnull stop) {
-            if ([obj isKindOfClass:tempController.class]) {
+            if ([obj isKindOfClass:destinationClass]) {
                 isCanPop = YES;
                 tempController = obj;
                 *stop = YES;
@@ -105,6 +107,11 @@ NSString const *kATRouterNoAnimation = @"NO";
                 [tempController performSelector:@selector(updateCurrentPageWithParmeters:) withObject:parameters];
             }
         } else {
+            if (![controller isKindOfClass:UIViewController.class]) {
+                // 当初绑定的class或createInstanceWithParameters出来的就不是:UIViewController!!;
+                return;
+            }
+            
             // 这里是否欠考虑? 目标控制器实际不能pop的时候,是否什么应该都不做呢?
             if ([controller isKindOfClass:UINavigationController.class]) {
                 [c pushViewController:controller.childViewControllers.firstObject animated:animation];
@@ -134,6 +141,12 @@ NSString const *kATRouterNoAnimation = @"NO";
         return;
     }
 #pragma clang diagnostic pop
+    
+    if (![controller isKindOfClass:UIViewController.class]) {
+        // 当初绑定的class或createInstanceWithParameters出来的就不是:UIViewController!!;
+        return;
+    }
+
     // 通用的push操作.
     if ([controller isKindOfClass:UINavigationController.class]) {
         [[self getTopVisibleNavgationController] pushViewController:controller.childViewControllers.firstObject animated:animation];
@@ -144,8 +157,6 @@ NSString const *kATRouterNoAnimation = @"NO";
     }
 
     return;
-
-    NSAssert(NO, @"TODO: 未实现的分支逻辑");
 }
 
 + (UIViewController *)createViewControllerWithURL:(NSURL *)URL
