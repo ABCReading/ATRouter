@@ -336,7 +336,7 @@ NSString *const kJLRoutesBindViewControllerKey = @"kJLRoutesBindViewControllerKe
     // figure out which routes controller to use based on the scheme
     JLRoutes *routesController = routeControllersMap[[URL scheme]] ?: [self globalRoutes];
     
-    return [self routeURL:URL withController:routesController parameters:parameters gotoNext:YES executeBlock:execute];
+    return [self routeURL:URL withController:routesController parameters:parameters gotoNext:YES];
 }
 
 - (id)routeURL:(NSURL *)URL {
@@ -353,7 +353,7 @@ NSString *const kJLRoutesBindViewControllerKey = @"kJLRoutesBindViewControllerKe
         return [NSNumber numberWithBool:NO];
     }
     JLRoutes *routesController = routeControllersMap[[URL scheme]] ?: [self globalRoutes];
-    return [self routeURL:URL withController:routesController parameters:nil gotoNext:NO executeBlock:YES];
+    return [self routeURL:URL withController:routesController parameters:nil gotoNext:NO];
 }
 
 + (id)getViewControllerFormURL:(NSURL *)URL withParameters:(NSDictionary *)parameters {
@@ -361,24 +361,22 @@ NSString *const kJLRoutesBindViewControllerKey = @"kJLRoutesBindViewControllerKe
         return [NSNumber numberWithBool:NO];
     }
     JLRoutes *routesController = routeControllersMap[[URL scheme]] ?: [self globalRoutes];
-    return [self routeURL:URL withController:routesController parameters:parameters gotoNext:NO executeBlock:YES];
+    return [self routeURL:URL withController:routesController parameters:parameters gotoNext:NO];
 }
 
 - (BOOL)canRouteURL:(NSURL *)URL {
-    id result = [[self class] routeURL:URL withController:self parameters:nil gotoNext:NO executeBlock:NO];
+    id result = [[self class] routeURL:URL withController:self parameters:nil gotoNext:NO];
     if ([result isKindOfClass:[UIViewController class]] && ![result isKindOfClass:[UIAlertController class]]) {
-        NSNumber *num = (NSNumber *)result;
-        return [num boolValue];
+        return YES;
     }
     
     return NO;
 }
 
 - (BOOL)canRouteURL:(NSURL *)URL withParameters:(NSDictionary *)parameters {
-    id result =  [[self class] routeURL:URL withController:self parameters:parameters gotoNext:NO executeBlock:NO];
+    id result =  [[self class] routeURL:URL withController:self parameters:parameters gotoNext:NO];
     if ([result isKindOfClass:[UIViewController class]] && ![result isKindOfClass:[UIAlertController class]]) {
-        NSNumber *num = (NSNumber *)result;
-        return [num boolValue];
+        return YES;
     }
     
     return NO;
@@ -418,14 +416,14 @@ NSString *const kJLRoutesBindViewControllerKey = @"kJLRoutesBindViewControllerKe
 #pragma mark Internal API
 
 + (id)routeURL:(NSURL *)URL withController:(JLRoutes *)routesController {
-    return [self routeURL:URL withController:routesController parameters:nil gotoNext:YES executeBlock:YES];
+    return [self routeURL:URL withController:routesController parameters:nil gotoNext:YES];
 }
 
 + (id)routeURL:(NSURL *)URL withController:(JLRoutes *)routesController parameters:(NSDictionary *)parameters {
-    return [self routeURL:URL withController:routesController parameters:parameters gotoNext:YES executeBlock:YES];
+    return [self routeURL:URL withController:routesController parameters:parameters gotoNext:YES];
 }
 
-+ (id)routeURL:(NSURL *)URL withController:(JLRoutes *)routesController parameters:(NSDictionary *)parameters gotoNext:(BOOL)gotoNext executeBlock:(BOOL)executeBlock {
++ (id)routeURL:(NSURL *)URL withController:(JLRoutes *)routesController parameters:(NSDictionary *)parameters gotoNext:(BOOL)gotoNext {
     [self verboseLogWithFormat:@"Trying to route URL %@", URL];
     id didRoute = [NSNumber numberWithBool:NO];
     NSArray *routes = routesController.routes;
@@ -450,10 +448,6 @@ NSString *const kJLRoutesBindViewControllerKey = @"kJLRoutesBindViewControllerKe
         NSDictionary *matchParameters = [route parametersForURL:URL components:pathComponents];
         if (matchParameters) {
             [self verboseLogWithFormat:@"Successfully matched %@", route];
-            if (!executeBlock) {
-                return [NSNumber numberWithBool:YES];
-            }
-            
             // add the URL parameters
             NSMutableDictionary *finalParameters = [NSMutableDictionary dictionary];
             
@@ -483,7 +477,7 @@ NSString *const kJLRoutesBindViewControllerKey = @"kJLRoutesBindViewControllerKe
     // if we couldn't find a match and this routes controller specifies to fallback and its also not the global routes controller, then...
     if (!didRoute && routesController.shouldFallbackToGlobalRoutes && ![routesController isGlobalRoutesController]) {
         [self verboseLogWithFormat:@"Falling back to global routes..."];
-        didRoute = [self routeURL:URL withController:[self globalRoutes] parameters:parameters gotoNext:gotoNext executeBlock:executeBlock];
+        didRoute = [self routeURL:URL withController:[self globalRoutes] parameters:parameters gotoNext:gotoNext];
     }
     
     // if, after everything, we did not route anything and we have an unmatched URL handler, then call it

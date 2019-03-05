@@ -38,12 +38,8 @@ NSString const *kATRouterNoAnimation = @"NO";
 @implementation ATRouter
 + (void)addRoute:(NSString *)routePattern bindViewControllerClass:(Class)bindClass
          handler:(id (^)(NSDictionary *parameters))handlerBlock {
-    if ([bindClass conformsToProtocol:@protocol(ATRoutableController)] &&
-        [bindClass isKindOfClass:[UIViewController class]] &&
-        ![bindClass isKindOfClass:[UIAlertController class]]) {
-            [[JLRoutes globalRoutes] addRoute:routePattern
-                                    bindClass:bindClass
-                                      handler:handlerBlock];
+    if ([bindClass conformsToProtocol:@protocol(ATRoutableController)]) {
+        [[JLRoutes globalRoutes] addRoute:routePattern bindClass:bindClass handler:handlerBlock];
     }
 }
 
@@ -52,7 +48,7 @@ NSString const *kATRouterNoAnimation = @"NO";
            withParameters:nil];
 }
 
-+ (id)routeURL:(NSURL *)URL withParameters:(NSDictionary *)parameters {
++ (id)routeURL:(NSURL *)URL withParameters:(NSDictionary *)parameters {    
     id canRoute = [JLRoutes routeURL:URL
                       withParameters:parameters];
 
@@ -111,18 +107,6 @@ NSString const *kATRouterNoAnimation = @"NO";
             // pop时的反向传值操作.
             if ([tempController respondsToSelector:@selector(updateCurrentPageWithParmeters:)]) {
                 [tempController performSelector:@selector(updateCurrentPageWithParmeters:) withObject:parameters];
-            }
-        } else {
-            if (![controller isKindOfClass:UIViewController.class]) {
-                // 当初绑定的class或createInstanceWithParameters出来的就不是:UIViewController!!;
-                return;
-            }
-            
-            // 这里是否欠考虑? 目标控制器实际不能pop的时候,是否什么应该都不做呢?
-            if ([controller isKindOfClass:UINavigationController.class]) {
-                [c pushViewController:controller.childViewControllers.firstObject animated:animation];
-            } else {
-                [c pushViewController:controller animated:animation];
             }
         }
         return;
