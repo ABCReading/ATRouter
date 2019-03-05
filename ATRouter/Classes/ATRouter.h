@@ -49,12 +49,14 @@ extern NSString const *kATRouterNoAnimation;
 
 /// Migrate from JLRoutes.
 /// Registers a routePattern with default priority (0) in the receiving scheme namespace.
-+ (void)addRoute:(NSString *)routePattern bindViewControllerClass:(Class)bindClass handler:(id (^)(NSDictionary *parameters))handlerBlock;
++ (void)addRoute:(NSString *)routePattern bindViewControllerClass:(Class)bindClass
+         handler:(id (^)(NSDictionary *parameters))handlerBlock;
 
 + (id)routeURL:(NSURL *)URL;
 + (id)routeURL:(NSURL *)URL withParameters:(NSDictionary *)parameters;
 
-+ (void)navigationWithController:(UIViewController *)controller parameters:(NSDictionary *)parameters;
++ (void)navigationWithController:(UIViewController *)controller
+                      parameters:(NSDictionary *)parameters;
 
 + (UIViewController *)createViewControllerWithURL:(NSURL *)URL
                                         parameter:(NSDictionary *)params;

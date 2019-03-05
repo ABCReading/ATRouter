@@ -312,10 +312,8 @@ NSString *const kJLRoutesBindViewControllerKey = @"kJLRoutesBindViewControllerKe
 
 + (BOOL)canRouteURL:(NSURL *)URL {
     id result = [self routeURL:URL withParameters:nil executeRouteBlock:NO];
-    if ([result isKindOfClass:[NSNumber class]])
-    {
-        NSNumber *num = (NSNumber *)result;
-        return [num boolValue];
+    if ([result isKindOfClass:[UIViewController class]] && ![result isKindOfClass:[UIAlertController class]]) {
+        return YES;
     }
     
     return NO;
@@ -323,10 +321,8 @@ NSString *const kJLRoutesBindViewControllerKey = @"kJLRoutesBindViewControllerKe
 
 + (BOOL)canRouteURL:(NSURL *)URL withParameters:(NSDictionary *)parameters {
     id result = [self routeURL:URL withParameters:parameters executeRouteBlock:NO];
-    if ([result isKindOfClass:[NSNumber class]])
-    {
-        NSNumber *num = (NSNumber *)result;
-        return [num boolValue];
+    if ([result isKindOfClass:[UIViewController class]] && ![result isKindOfClass:[UIAlertController class]]) {
+        return YES;
     }
     
     return NO;
@@ -370,8 +366,7 @@ NSString *const kJLRoutesBindViewControllerKey = @"kJLRoutesBindViewControllerKe
 
 - (BOOL)canRouteURL:(NSURL *)URL {
     id result = [[self class] routeURL:URL withController:self parameters:nil gotoNext:NO executeBlock:NO];
-    if ([result isKindOfClass:[NSNumber class]])
-    {
+    if ([result isKindOfClass:[UIViewController class]] && ![result isKindOfClass:[UIAlertController class]]) {
         NSNumber *num = (NSNumber *)result;
         return [num boolValue];
     }
@@ -381,8 +376,7 @@ NSString *const kJLRoutesBindViewControllerKey = @"kJLRoutesBindViewControllerKe
 
 - (BOOL)canRouteURL:(NSURL *)URL withParameters:(NSDictionary *)parameters {
     id result =  [[self class] routeURL:URL withController:self parameters:parameters gotoNext:NO executeBlock:NO];
-    if ([result isKindOfClass:[NSNumber class]])
-    {
+    if ([result isKindOfClass:[UIViewController class]] && ![result isKindOfClass:[UIAlertController class]]) {
         NSNumber *num = (NSNumber *)result;
         return [num boolValue];
     }

@@ -38,23 +38,29 @@ NSString const *kATRouterNoAnimation = @"NO";
 @implementation ATRouter
 + (void)addRoute:(NSString *)routePattern bindViewControllerClass:(Class)bindClass
          handler:(id (^)(NSDictionary *parameters))handlerBlock {
-    if ([bindClass conformsToProtocol:@protocol(ATRoutableController)]) {
-        [[JLRoutes globalRoutes] addRoute:routePattern bindClass:bindClass handler:handlerBlock];
+    if ([bindClass conformsToProtocol:@protocol(ATRoutableController)] &&
+        [bindClass isKindOfClass:[UIViewController class]] &&
+        ![bindClass isKindOfClass:[UIAlertController class]]) {
+            [[JLRoutes globalRoutes] addRoute:routePattern
+                                    bindClass:bindClass
+                                      handler:handlerBlock];
     }
 }
 
 + (id)routeURL:(NSURL *)URL {
-    return [self routeURL:URL withParameters:nil];
+    return [self routeURL:URL
+           withParameters:nil];
 }
 
 + (id)routeURL:(NSURL *)URL withParameters:(NSDictionary *)parameters {
-    
-    id canRoute = [JLRoutes routeURL:URL withParameters:parameters];
+    id canRoute = [JLRoutes routeURL:URL
+                      withParameters:parameters];
 
     return canRoute;
 }
 
-+ (void)navigationWithController:(UIViewController *)controller parameters:(NSDictionary *)parameters {
++ (void)navigationWithController:(UIViewController *)controller
+                      parameters:(NSDictionary *)parameters {
     if ([parameters[kJLRoutesDontGotoNextPageKey] boolValue]) {
         // kJLRoutesDontGotoNextPageKey 代表只是获取一个实例,并不用跳转!
         return;
