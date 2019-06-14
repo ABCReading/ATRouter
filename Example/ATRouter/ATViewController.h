@@ -8,6 +8,6 @@
 
 @import UIKit;
 #import <ATRouter/ATRoutableController.h>
-@interface ATViewController : UIViewController
+@interface ATViewController : UIViewController <ATRoutableController>
 
 @end

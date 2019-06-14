@@ -10,6 +10,7 @@
 #import <ATRouter/ATRoutableController.h>
 #import <ATRouter/ATRouter.h>
 #import "ATUnifyUpdateInfoClass.h"
+#import "ATRouterURLHeader.h"
 @interface ATThreeViewController ()<ATRoutableController>
 
 @end
@@ -39,8 +40,9 @@
 - (void)backToPerious {
     [ATUnifyUpdateInfoClass removeUpdateInstance:self];
 //    [self dismissViewControllerAnimated:YES completion:nil];
-    [ATRouter routeURL:[NSURL URLWithString:@"/two"] withParameters:@{kATRouterMethodKey:kATRouterDismiss, kATRouterDismisserKey : self.navigationController}];
-//    [ATRouter routeURL:[NSURL URLWithString:@"/two"] withParameters:@{kATRouterMethodKey:kATRouterPop, kATRouterPoperKey: self.navigationController}];
+    [ATRouter routeURL:[NSURL URLWithString:ATRouterTestTwoURLPattern]
+        withParameters:@{kATRouterMethodKey:kATRouterDismiss,
+                         kATRouterDismisserKey : self.navigationController}];
 }
 
 + (UIViewController *)createInstanceWithParameters:(NSDictionary *)parameters {

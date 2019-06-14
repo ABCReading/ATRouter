@@ -38,7 +38,9 @@ NSString const *kATRouterNoAnimation = @"NO";
 @implementation ATRouter
 + (void)addRoute:(NSString *)routePattern bindViewControllerClass:(Class)bindClass
          handler:(id (^)(NSDictionary *parameters))handlerBlock {
-    if ([bindClass conformsToProtocol:@protocol(ATRoutableController)]) {
+    if ([bindClass conformsToProtocol:@protocol(ATRoutableController)] &&
+        [bindClass isSubclassOfClass:NSClassFromString(@"UIViewController")] &&
+        ![bindClass isSubclassOfClass:NSClassFromString(@"UIAlertController")]) {
         [[JLRoutes globalRoutes] addRoute:routePattern bindClass:bindClass handler:handlerBlock];
     }
 }

@@ -10,6 +10,7 @@
 #import <ATRouter/ATRoutableController.h>
 #import <ATRouter/ATRouter.h>
 #import "ATUnifyUpdateInfoClass.h"
+#import "ATRouterURLHeader.h"
 @interface ATTwoViewController () <ATRoutableController>
 @property (nonatomic, strong) UIButton *backBtn;
 @end
@@ -50,14 +51,18 @@
 }
 
 - (void)backToPerious {
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [ATRouter routeURL:[NSURL URLWithString:ATRouterTestOneURLPattern]
+        withParameters:@{kATRouterMethodKey:kATRouterDismiss,
+                         kATRouterDismisserKey : self.navigationController
+                         }];
     [ATUnifyUpdateInfoClass removeUpdateInstance:self];
 }
 
 - (void)next {
-    
-    [ATRouter routeURL:[NSURL URLWithString:@"/three"]
-        withParameters:@{@"title":NSStringFromClass(self.class),kATRouterMethodKey:kATRouterPresent
+    [ATRouter routeURL:[NSURL URLWithString:ATRouterTestThreeURLPattern]
+        withParameters:@{@"title":NSStringFromClass(self.class),
+                         kATRouterMethodKey:kATRouterPresent
                          }];
 }
 

@@ -69,7 +69,7 @@ NSString *const kJLRoutesBindViewControllerKey = @"kJLRoutesBindViewControllerKe
 @interface _JLRoute : NSObject
 
 @property (nonatomic, weak) JLRoutes *parentRoutesController;
-@property (nonatomic, strong) NSString *pattern;
+@property (nonatomic, strong) NSURL *pattern;
 @property (nonatomic, strong) id (^block)(NSDictionary *parameters);
 @property (nonatomic, assign) NSUInteger priority;
 @property (nonatomic, strong) NSArray *patternPathComponents;
@@ -87,11 +87,19 @@ NSString *const kJLRoutesBindViewControllerKey = @"kJLRoutesBindViewControllerKe
     
     if (!self.patternPathComponents) {
         self.patternPathComponents = [[self.pattern pathComponents] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT SELF like '/'"]];
+        
+        if ([self.pattern.host rangeOfString:@"."].location == NSNotFound && ![self.pattern.host isEqualToString:@"localhost"]) {
+            // For backward compatibility, handle scheme://path/to/ressource as if path was part of the
+            // path if it doesn't look like a domain name (no dot in it)
+            if (self.pattern.host) {
+                self.patternPathComponents = [@[self.pattern.host] arrayByAddingObjectsFromArray:self.patternPathComponents];
+            }
+        }
     }
     
     // do a quick component count check to quickly eliminate incorrect patterns
     BOOL componentCountEqual = self.patternPathComponents.count == URLComponents.count;
-    BOOL routeContainsWildcard = !NSEqualRanges([self.pattern rangeOfString:@"*"], NSMakeRange(NSNotFound, 0));
+    BOOL routeContainsWildcard = !NSEqualRanges([self.pattern.absoluteString rangeOfString:@"*"], NSMakeRange(NSNotFound, 0));
     if (componentCountEqual || routeContainsWildcard) {
         // now that we've identified a possible match, move component by component to check if it's a match
         NSUInteger componentIndex = 0;
@@ -222,7 +230,7 @@ NSString *const kJLRoutesBindViewControllerKey = @"kJLRoutesBindViewControllerKe
 - (void)addRoute:(NSString *)routePattern bindClass:(Class)bindClass priority:(NSUInteger)priority
          handler:(id (^)(NSDictionary *parameters))handlerBlock {
     _JLRoute *route = [[_JLRoute alloc] init];
-    route.pattern = routePattern;
+    route.pattern = [NSURL URLWithString:routePattern] ;
     route.priority = priority;
     route.block = [handlerBlock copy];
     route.parentRoutesController = self;
@@ -273,7 +281,7 @@ NSString *const kJLRoutesBindViewControllerKey = @"kJLRoutesBindViewControllerKe
     NSInteger index = 0;
     
     for (_JLRoute *route in self.routes) {
-        if ([route.pattern isEqualToString:routePattern]) {
+        if ([route.pattern.absoluteString isEqualToString:routePattern]) {
             routeIndex = index;
             break;
         }

@@ -12,36 +12,42 @@
 #import <ATRouter.h>
 #import "ATTwoViewController.h"
 #import "ATThreeViewController.h"
-static NSString *routerTwoStr = @"/two";
-static NSString *routerThreeStr = @"/three";
+#import "ATRouterURLHeader.h"
+#import "ATViewController.h"
+
+
 @implementation ATRouter (Test)
 + (void)load {
     // twoVC
-    [ATRouter addRoute:routerTwoStr bindViewControllerClass:ATTwoViewController.class handler:^id (NSDictionary *parameters) {
+    [ATRouter addRoute:ATRouterTestTwoURLPattern bindViewControllerClass:ATTwoViewController.class handler:^id (NSDictionary *parameters) {
         Class destination = NSClassFromString([parameters objectForKey:kATRouterBindClassKey]);
 
         UIViewController *c = [destination createInstanceWithParameters:parameters];
-        
-        if (!c) {
-            return nil;
-        }
         
         [self navigationWithController:c parameters:parameters];
         return c;
     }];
     
     // threeVC
-    [ATRouter addRoute:routerThreeStr bindViewControllerClass:ATThreeViewController.class handler:^id (NSDictionary *parameters) {
+    [ATRouter addRoute:ATRouterTestThreeURLPattern bindViewControllerClass:ATThreeViewController.class handler:^id (NSDictionary *parameters) {
         Class destination = NSClassFromString([parameters objectForKey:kATRouterBindClassKey]);
         
         UIViewController *c = [destination createInstanceWithParameters:parameters];
         
-        if (!c) {
-            return nil;
-        }
-        
         [self navigationWithController:c parameters:parameters];
         return c;
+    }];
+    
+    [ATRouter addRoute:ATRouterTestOneURLPattern
+bindViewControllerClass:ATViewController.class
+               handler:^id(NSDictionary *parameters) {
+                   Class destination = NSClassFromString([parameters objectForKey:kATRouterBindClassKey]);
+                   
+                   UIViewController *c = [destination createInstanceWithParameters:parameters];
+                   
+                   [self navigationWithController:c parameters:parameters];
+                   
+                   return c;
     }];
 
     

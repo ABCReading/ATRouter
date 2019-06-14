@@ -46,6 +46,7 @@
 		30ECE52F870A44F4076286CF /* Pods_ATRouter_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ATRouter_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		310E474921D4B0E8009469B8 /* ATUnifyUpdateInfoClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATUnifyUpdateInfoClass.h; sourceTree = "<group>"; };
 		310E474A21D4B0E8009469B8 /* ATUnifyUpdateInfoClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATUnifyUpdateInfoClass.m; sourceTree = "<group>"; };
+		3117BC3122B3906400F65C30 /* ATRouterURLHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATRouterURLHeader.h; sourceTree = "<group>"; };
 		316D5E9F21B629CD00E74939 /* ATSupportedControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATSupportedControllers.h; sourceTree = "<group>"; };
 		316D5EA421B62CDE00E74939 /* ATRouter+Test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ATRouter+Test.h"; sourceTree = "<group>"; };
 		316D5EA521B62CDE00E74939 /* ATRouter+Test.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ATRouter+Test.m"; sourceTree = "<group>"; };
@@ -162,6 +163,7 @@
 				316D5E9F21B629CD00E74939 /* ATSupportedControllers.h */,
 				310E474921D4B0E8009469B8 /* ATUnifyUpdateInfoClass.h */,
 				310E474A21D4B0E8009469B8 /* ATUnifyUpdateInfoClass.m */,
+				3117BC3122B3906400F65C30 /* ATRouterURLHeader.h */,
 			);
 			name = "Example for ATRouter";
 			path = ATRouter;
@@ -266,9 +268,12 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = AT;
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = Spaino;
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = PQ82P54YUA;
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -276,7 +281,7 @@
 			};
 			buildConfigurationList = 6003F585195388D10070C39A /* Build configuration list for PBXProject "ATRouter" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -449,6 +454,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -502,6 +508,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -549,6 +556,7 @@
 			baseConfigurationReference = 07E722EFE21142F79EBF6FE0 /* Pods-ATRouter_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = PQ82P54YUA;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ATRouter/ATRouter-Prefix.pch";
 				INFOPLIST_FILE = "ATRouter/ATRouter-Info.plist";
@@ -564,6 +572,7 @@
 			baseConfigurationReference = 62618EEB6D16896DA4D27719 /* Pods-ATRouter_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = PQ82P54YUA;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ATRouter/ATRouter-Prefix.pch";
 				INFOPLIST_FILE = "ATRouter/ATRouter-Info.plist";
